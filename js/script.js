@@ -33,15 +33,17 @@ function handle(){
 }
 
 const firebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyBcY40n3yG3zOqP_KxhdbZSH23E-SHErFc",
-    authDomain: "auth-7f2bf.firebaseapp.com",
-    projectId: "auth-7f2bf",
-    storageBucket: "auth-7f2bf.appspot.com",
-    messagingSenderId: "755909554015",
-    appId: "1:755909554015:web:818cc0d7cac0306b6210ea"
+  apiKey: "AIzaSyA7zkS0bGtECDGGVDGahvoao_Z9EwiI0O8",
+  authDomain: "auth-35f73.firebaseapp.com",
+  databaseURL: "https://auth-35f73-default-rtdb.firebaseio.com",
+  projectId: "auth-35f73",
+  storageBucket: "auth-35f73.appspot.com",
+  messagingSenderId: "276193603454",
+  appId: "1:276193603454:web:b30e1664e1cf008088cd2f"
   });
   const db = firebaseApp.firestore();
   const auth = firebaseApp.auth();
+  var database = firebase.database();
 
   let a =600;
 var options = {
@@ -72,15 +74,26 @@ var rzp1 = new Razorpay(options);
   
     const email = document.getElementById('reg_email').value;
     const password = document.getElementById('reg_pass').value;
+    const username = document.getElementById('user').value
     console.log(email, password);
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((result) => {
+      .then(function() {
+
+        // var user = firebase.auth().currentUser
+        var database_ref = database.ref() 
+
+        var user_data = {
+          Username : username,
+          Email : email
+        }
+
+        database_ref.child('user/' + user.uid).set(user_data)
         // Signed in 
         alert("you signed up");
-        console.log(result);
+        // console.log(result);
         // ...
       })
-      .catch((error) => {
+      .catch((error) => { 
         console.log(error.code);
         console.log(error.message);
         // ..
